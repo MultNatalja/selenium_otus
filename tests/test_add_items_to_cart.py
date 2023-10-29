@@ -19,7 +19,3 @@ def test_add_item_to_cart(browser, url):
     WebDriverWait(browser, 5).until(EC.title_contains("Shopping Cart"))
     WebDriverWait(browser, 5).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, "#content form div table tbody tr td:nth-child(2)")))
-
-
-if __name__ == '__main__':
-    pytest.main()

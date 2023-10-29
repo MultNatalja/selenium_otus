@@ -22,7 +22,3 @@ def test_change_currency_catalog(browser, url):
     expected_currency = "€"
 
     assert expected_currency in new_price_text, f"Expected currency {expected_currency} not found in {new_price_text}"
-
-
-if __name__ == '__main__':
-    pytest.main()
