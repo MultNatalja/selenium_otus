@@ -2,11 +2,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_object.admin_page import AdminPage
+from page_object.elements.registration_locators import RegisterLocators
 
-def test_find_elements_admin(browser, url):
-    browser.get(url + "/admin")
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#input-username")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#input-password")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".btn-primary")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".help-block")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[type='submit']")))
+
+def test_find_elements_admin(browser):
+    admin_login_page = AdminPage(browser)
+    admin_login_page.find_element(RegisterLocators.ELEMENT_INPUT_USERNAME)
+    admin_login_page.find_element(RegisterLocators.ELEMENT_INPUT_PASSWORD)
+    admin_login_page.find_element(RegisterLocators.ELEMENT_BUTTON_LOGIN)
+    admin_login_page.find_element(RegisterLocators.ELEMENT_HELP_BLOCK)
+    admin_login_page.find_element(RegisterLocators.ELEMENT_BUTTON_SUBMIT)
