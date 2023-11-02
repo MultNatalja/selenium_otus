@@ -1,5 +1,3 @@
-from selenium.webdriver.support.ui import WebDriverWait
-
 from page_object.base_page import BasePage
 from page_object.elements.registration_locators import RegisterLocators
 
@@ -17,11 +15,8 @@ class AdminPage(BasePage):
         self._send_keys(RegisterLocators.INPUT_USERNAME, login)
         self._send_keys(RegisterLocators.PASSWORD_INPUT, password)
         self._element(RegisterLocators.LOGIN_BUTTON).click()
-        WebDriverWait(self.browser, 5).until(RegisterLocators.TITLE_DASHBOARD)
+        self.find_element(RegisterLocators.TITLE_DASHBOARD, 5)
 
     def logout(self):
         self._element(RegisterLocators.LOGOUT_BUTTON).click()
-        WebDriverWait(self.browser, 5).until(RegisterLocators.TITLE_ADMINISTRATION)
-
-    def find_element(self, locator):
-        WebDriverWait(self.browser, 1).until(locator)
+        self.find_element(RegisterLocators.TITLE_ADMINISTRATION, 5)
