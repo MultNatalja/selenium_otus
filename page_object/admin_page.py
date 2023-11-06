@@ -1,5 +1,5 @@
 from page_object.base_page import BasePage
-from page_object.elements.registration_locators import RegisterLocators
+from page_object.elements.admin_login_locators import AdminLoginLocators
 
 
 class AdminPage(BasePage):
@@ -9,14 +9,14 @@ class AdminPage(BasePage):
         self.check_admin_page()
 
     def check_admin_page(self):
-        self._verify_element_presence(RegisterLocators.INPUT_USERNAME)
+        self._verify_element_presence(AdminLoginLocators.INPUT_USERNAME)
 
     def login(self, login, password):
-        self._send_keys(RegisterLocators.INPUT_USERNAME, login)
-        self._send_keys(RegisterLocators.PASSWORD_INPUT, password)
-        self._element(RegisterLocators.LOGIN_BUTTON).click()
-        self.find_element(RegisterLocators.TITLE_DASHBOARD, 5)
+        self._send_keys(AdminLoginLocators.INPUT_USERNAME, login)
+        self._send_keys(AdminLoginLocators.PASSWORD_INPUT, password)
+        self._element(AdminLoginLocators.LOGIN_BUTTON).click()
+        self.find_element(AdminLoginLocators.TITLE_DASHBOARD, 5)
 
     def logout(self):
-        self._element(RegisterLocators.LOGOUT_BUTTON).click()
-        self.find_element(RegisterLocators.TITLE_ADMINISTRATION, 5)
+        self._element(AdminLoginLocators.LOGOUT_BUTTON).click()
+        self.find_element(AdminLoginLocators.TITLE_ADMINISTRATION, 5)
