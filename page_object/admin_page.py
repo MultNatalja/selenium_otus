@@ -15,8 +15,8 @@ class AdminPage(BasePage):
         self._send_keys(AdminLoginLocators.INPUT_USERNAME, login)
         self._send_keys(AdminLoginLocators.PASSWORD_INPUT, password)
         self._element(AdminLoginLocators.LOGIN_BUTTON).click()
-        self.find_element(AdminLoginLocators.TITLE_DASHBOARD, 5)
+        self._find_element(AdminLoginLocators.TITLE_DASHBOARD, 5)
 
     def logout(self):
         self._element(AdminLoginLocators.LOGOUT_BUTTON).click()
-        self.find_element(AdminLoginLocators.TITLE_ADMINISTRATION, 5)
+        self._find_element(AdminLoginLocators.TITLE_ADMINISTRATION, 5)

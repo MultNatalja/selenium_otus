@@ -22,7 +22,7 @@ class BasePage:
         element = self._element(element)
         element.send_keys(keys)
 
-    def find_element(self, locator, timeout=None):
+    def _find_element(self, locator, timeout=None):
         if timeout is None:
             timeout = self.browser.t
         WebDriverWait(self.browser, timeout).until(locator)

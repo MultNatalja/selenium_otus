@@ -9,7 +9,7 @@ class CatalogPage(ShopPage):
         self.check_catalog_page()
 
     def check_catalog_page(self):
-        self.find_element(CatalogLocators.TITLE_DESKTOPS)
+        self._find_element(CatalogLocators.TITLE_DESKTOPS)
 
     def get_price(self):
         new_price_element = self._element(CatalogLocators.CURRENCY_VALUE, 2)

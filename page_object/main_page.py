@@ -9,7 +9,7 @@ class MainPage(ShopPage):
         self.check_main_page()
 
     def check_main_page(self):
-        self.find_element(MainLocators.TITLE_YOUR_STORE)
+        self._find_element(MainLocators.TITLE_YOUR_STORE)
 
     def get_price(self):
         new_price_element = self._element(MainLocators.CURRENCY_VALUE, 2)
