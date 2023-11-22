@@ -12,7 +12,7 @@ class BasePage:
 
     def _verify_element_presence(self, locator: tuple, timeout=None):
         if timeout is None:
-            timeout = self.browser.t
+            timeout = self.browser.timeout
         try:
             return WebDriverWait(self.browser, timeout).until(EC.visibility_of_element_located(locator))
         except TimeoutException:
@@ -24,5 +24,5 @@ class BasePage:
 
     def _find_element(self, locator, timeout=None):
         if timeout is None:
-            timeout = self.browser.t
+            timeout = self.browser.timeout
         WebDriverWait(self.browser, timeout).until(locator)

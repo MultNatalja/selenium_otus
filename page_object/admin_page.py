@@ -3,9 +3,9 @@ from page_object.elements.admin_login_locators import AdminLoginLocators
 
 
 class AdminPage(BasePage):
-    def __init__(self, browser):
+    def __init__(self, browser, page_url):
         self.browser, self.url = browser
-        self.browser.get(self.url + '/admin')
+        self.browser.get(self.url + page_url)
         self.check_admin_page()
 
     def check_admin_page(self):

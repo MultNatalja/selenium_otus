@@ -42,7 +42,7 @@ def browser(request):
     if request.config.getoption("--max"):
         driver.maximize_window()
 
-    driver.t = 5
+    driver.timeout = 5
 
     yield driver, url
 

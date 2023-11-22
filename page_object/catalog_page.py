@@ -3,13 +3,12 @@ from page_object.elements.catalog_locators import CatalogLocators
 
 
 class CatalogPage(ShopPage):
-    def __init__(self, browser):
+    def __init__(self, browser, page_url):
         self.browser, self.url = browser
-        self.browser.get(self.url + '/desktops')
-        self.check_catalog_page()
+        self.browser.get(self.url + page_url)
 
-    def check_catalog_page(self):
-        self._find_element(CatalogLocators.TITLE_DESKTOPS)
+    def check_catalog_page(self, title_locator):
+        self._find_element(title_locator)
 
     def get_price(self):
         new_price_element = self._element(CatalogLocators.CURRENCY_VALUE, 2)
