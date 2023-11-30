@@ -1,13 +1,11 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from page_object.main_page import MainPage
+from page_object.elements.main_locators import MainLocators
+from page_object.elements.shop_locators import ShopLocators
 
 
-def test_find_elements_main_page(browser, url):
-    browser.get(url)
-    WebDriverWait(browser, 1).until(EC.title_is("Your Store"))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name='search']")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#logo")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#cart button")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#cart button")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".swiper-container")))
+def test_find_elements_main_page(browser):
+    main_page = MainPage(browser)
+    main_page._find_element(MainLocators.TITLE_YOUR_STORE)
+    main_page._find_element(ShopLocators.ELEMENT_INPUT_SEARCH)
+    main_page._find_element(ShopLocators.ELEMENT_CART_BUTTON)
+    main_page._find_element(MainLocators.ELEMENT_SWIPER_CONTAINER)

@@ -1,12 +1,11 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from page_object.item_page import ItemPage
+from page_object.elements.item_locators import ItemLocators
 
 
-def test_find_elements_item(browser, url):
-    browser.get(url + "/iphone")
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#input-quantity")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#button-cart")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content h1")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content img")))
-    WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#content .image")))
+def test_find_elements_item(browser):
+    item_page = ItemPage(browser, '/iphone')
+    item_page._element(ItemLocators.INPUT_QUANTITY)
+    item_page._element(ItemLocators.BUTTON_CART)
+    item_page._element(ItemLocators.CONTENT_HEADER)
+    item_page._element(ItemLocators.CONTENT_IMAGE)
+    item_page._element(ItemLocators.CONTENT_IMAGE_RELATED)

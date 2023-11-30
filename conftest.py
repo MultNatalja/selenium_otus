@@ -20,6 +20,7 @@ def url(request):
 def browser(request):
     browser_name = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
+    url = request.config.getoption("--url")
 
     if browser_name == "chrome":
         options = ChromeOptions()
@@ -41,6 +42,8 @@ def browser(request):
     if request.config.getoption("--max"):
         driver.maximize_window()
 
-    yield driver
+    driver.timeout = 5
+
+    yield driver, url
 
     driver.close()
