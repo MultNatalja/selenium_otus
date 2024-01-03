@@ -1,6 +1,8 @@
 import datetime
+import json
 import os
 
+import allure
 import pytest
 import logging
 from selenium import webdriver
@@ -63,6 +65,11 @@ def browser(request):
         driver.maximize_window()
 
     driver.timeout = 5
+
+    allure.attach(
+        name=driver.session_id,
+        body=json.dumps(driver.capabilities),
+        attachment_type=allure.attachment_type.JSON)
 
     yield driver, url
 

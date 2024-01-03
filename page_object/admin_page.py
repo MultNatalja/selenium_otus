@@ -6,7 +6,6 @@ from page_object.elements.admin_login_locators import AdminLoginLocators
 
 class AdminPage(BasePage):
     def __init__(self, browser, page_url):
-
         self.browser, self.url = browser
         self.class_name = type(self).__name__
         self.logger = self.browser.logger
