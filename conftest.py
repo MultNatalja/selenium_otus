@@ -30,6 +30,70 @@ def url(request):
     return request.config.getoption("--url")
 
 
+def create_webdriver(start_type, browser_name, headless=False, executor_url=None, bv=None, video=False, vnc=False, request_node=None):
+    options = get_options(browser_name, headless, bv, video, vnc, request_node)
+
+    if start_type == "local":
+        driver = get_local_driver(browser_name, options)
+    else:
+        driver = get_remote_driver(executor_url, options)
+
+    return driver
+
+
+def get_options(browser_name, headless, bv, video, vnc, request_node):
+    options = None
+
+    if browser_name == "chrome":
+        options = ChromeOptions()
+    elif browser_name == "firefox":
+        options = FFOptions()
+    elif browser_name == "safari":
+        options = SafariOptions()
+    elif browser_name == "MicrosoftEdge":
+        options = EdgeOptions()
+
+    if headless:
+        options.add_argument("--headless")
+
+    if request_node is not None:
+        configure_capabilities(options, browser_name, bv, video, vnc, request_node)
+
+    return options
+
+
+def configure_capabilities(options, browser_name, bv, video, vnc, request_node):
+    caps = {
+        "browserName": browser_name,
+        "browserVersion": bv,
+        "selenoid:options": {
+            "enableVideo": video,
+            "enableVNC": vnc,
+            "name": os.getenv("BUILD_NUMBER", f"{request_node.name}"),
+        },
+        "acceptInsecureCerts": True,
+    }
+
+    for k, v in caps.items():
+        options.set_capability(k, v)
+
+
+def get_local_driver(browser_name, options):
+    if browser_name == "safari":
+        return webdriver.Safari(options=options)
+    elif browser_name == "MicrosoftEdge":
+        return webdriver.Edge(options=options)
+    else:
+        return webdriver.Chrome(options=options) if browser_name == "chrome" else webdriver.Firefox(options=options)
+
+
+def get_remote_driver(executor_url, options):
+    return webdriver.Remote(
+        command_executor=executor_url,
+        options=options
+    )
+
+
 @pytest.fixture()
 def browser(request):
     browser_name = request.config.getoption("--browser")
@@ -51,56 +115,7 @@ def browser(request):
 
     logger.info("Test %s started at %s" % (request.node.name, datetime.datetime.now()))
 
-    if start_type == "local":
-        if browser_name == "chrome":
-            options = ChromeOptions()
-            if headless:
-                options.add_argument("--headless")
-            driver = webdriver.Chrome(options=options)
-        elif browser_name == "firefox":
-            options = FFOptions()
-            if headless:
-                options.add_argument("--headless")
-            driver = webdriver.Firefox(options=options)
-        elif browser_name == "safari":
-            driver = webdriver.Safari()
-        elif browser_name == "MicrosoftEdge":
-            driver = webdriver.Edge()
-        else:
-            raise ValueError(f"Browser {browser_name} not supported")
-    else:
-        if browser_name == "chrome":
-            options = ChromeOptions()
-        elif browser_name == "firefox":
-            options = FFOptions()
-        elif browser_name == "safari":
-            options = SafariOptions()
-        elif browser_name == "MicrosoftEdge":
-            options = EdgeOptions()
-        else:
-            raise ValueError(f"Browser {browser_name} not supported")
-
-        if headless:
-            options.add_argument("--headless")
-
-        caps = {
-            "browserName": browser_name,
-            "browserVersion": bv,
-            "selenoid:options": {
-                "enableVideo": video,
-                "enableVNC": vnc,
-                "name": os.getenv("BUILD_NUMBER", f"{request.node.name}"),
-            },
-            "acceptInsecureCerts": True,
-        }
-
-        for k, v in caps.items():
-            options.set_capability(k, v)
-
-        driver = webdriver.Remote(
-            command_executor=executor_url,
-            options=options
-        )
+    driver = create_webdriver(start_type, browser_name, headless, executor_url, bv, video, vnc, request.node)
 
     driver.log_level = log_level
     driver.logger = logger
