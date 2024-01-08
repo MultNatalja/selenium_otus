@@ -22,6 +22,11 @@ class BasePage:
         try:
             return WebDriverWait(self.browser, timeout).until(EC.visibility_of_element_located(locator))
         except TimeoutException:
+            allure.attach(
+                name=self.browser.current_url,
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
             raise AssertionError("Cant find elements by locator: {}".format(locator))
 
     @allure.step
@@ -38,4 +43,9 @@ class BasePage:
         try:
             return WebDriverWait(self.browser, timeout).until(locator)
         except TimeoutException:
+            allure.attach(
+                name=self.browser.current_url,
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
             raise AssertionError("Cant find elements by locator: {}".format(locator))
