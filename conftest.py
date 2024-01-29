@@ -101,6 +101,7 @@ def browser(request):
     url = request.config.getoption("--url")
     log_level = request.config.getoption("--log_level")
     executor = request.config.getoption("--executor")
+    root_dir = str(request.config.rootdir)
     bv = request.config.getoption("--bv")
     executor_url = f"http://{executor}:4444/wd/hub"
     video = request.config.getoption("--video")
@@ -108,7 +109,7 @@ def browser(request):
     start_type = request.config.getoption("--start_type")
 
     logger = logging.getLogger(request.node.name)
-    file_handler = logging.FileHandler(f"../logs/{request.node.name}.log")
+    file_handler = logging.FileHandler(f"{root_dir}/logs/{request.node.name}.log")
     file_handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.addHandler(file_handler)
     logger.setLevel(level=log_level)
